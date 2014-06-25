@@ -1,0 +1,39 @@
+{
+  "name": "gulp-sprocket-starter",
+  "version": "0.0.1",
+  "description": "Simple frontend workflow boilerplate with gulp and sprocket",
+  "main": "index.js",
+  "author": {
+    "name": "Lucien Lee",
+    "email": "lkiral7903@gmail",
+    "url": "https://github.com/lucienlee"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "boilerplate"
+  ],
+  "bugs": {
+    "url": "https://github.com/<placeholder>"
+  },
+  "homepage": "",
+  "devDependencies": {
+    "bower": "^1.3.5",
+    "gulp": "~3.8.1",
+    "gulp-jade": "~0.6.0",
+    "gulp-compass": "~1.1.9",
+    "gulp-plumber": "~0.6.3",
+    "gulp-livereload": "~2.1.0",
+    "sprocket": "~0.2.1",
+    "gulp-notify": "~1.4.0",
+    "gulp-cache": "~0.2.0",
+    "gulp-imagemin": "~0.6.1"
+  },
+  "dependencies": {
+    "connect": "~3.0.1",
+    "serve-static": "~1.2.3"
+  }
+}
