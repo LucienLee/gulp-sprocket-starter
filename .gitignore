@@ -1,0 +1,25 @@
+# Created by http://gitignore.io
+
+### Node ###
+lib-cov
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+
+pids
+logs
+results
+
+bower_components
+coverage
+node_modules
+tmp
+
+npm-debug.log
+
+.sass-cache
+
