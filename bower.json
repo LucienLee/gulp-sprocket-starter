@@ -1,0 +1,16 @@
+{
+  "name": "boilerplate",
+  "version": "0.0.1",
+  "authors": [
+    "Lucien Lee <lkiral7903@gmail.com>"
+  ],
+  "description": "simple frontend boilerplate",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
