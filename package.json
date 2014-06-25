@@ -14,7 +14,9 @@
     "url": ""
   },
   "keywords": [
-    "boilerplate"
+    "boilerplate",
+    "sprocket",
+    "gulp"
   ],
   "bugs": {
     "url": "https://github.com/<placeholder>"
@@ -30,7 +32,9 @@
     "sprocket": "~0.2.1",
     "gulp-notify": "~1.4.0",
     "gulp-cache": "~0.2.0",
-    "gulp-imagemin": "~0.6.1"
+    "gulp-imagemin": "~0.6.1",
+    "gulp-rimraf": "~0.1.0",
+    "gulp-if-else": "~1.0.1"
   },
   "dependencies": {
     "connect": "~3.0.1",

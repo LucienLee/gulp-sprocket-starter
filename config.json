@@ -1,11 +1,33 @@
 {
     "port": 3000,
     "paths": {
+        "src": {
+            "root": "src",
+            "view": "src/views",
+            "js": "src/javascripts",
+            "sass": "src/stylesheets",
+            "image": "src/images",
+            "font": "src/fonts"
+        },
         "app": {
-            "root": "public"
+            "root": "public",
+            "js": "public/js",
+            "css": "public/css",
+            "image": "public/img",
+            "font": "public/fonts"
         },
         "dist": {
-            "root": "dist"
+            "root": "dist",
+            "js": "dist/js",
+            "css": "dist/css",
+            "image": "dist/img",
+            "font": "dist/fonts"
         }
+    },
+    "imgCache": true,
+    "imagemin": {
+    "optimizationLevel": 5,
+        "progressive": true,
+        "interlaced": true
     }
 }
