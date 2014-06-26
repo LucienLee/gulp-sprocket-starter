@@ -1,6 +1,6 @@
 {
   "name": "gulp-sprocket-starter",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "Simple frontend workflow boilerplate with gulp and sprocket",
   "main": "index.js",
   "author": {

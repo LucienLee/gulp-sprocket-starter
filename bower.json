@@ -1,10 +1,10 @@
 {
-  "name": "boilerplate",
+  "name": "gulp-sprocket-starter",
   "version": "0.0.1",
   "authors": [
     "Lucien Lee <lkiral7903@gmail.com>"
   ],
-  "description": "simple frontend boilerplate",
+  "description": "Simple frontend workflow boilerplate with gulp and sprocket",
   "license": "MIT",
   "ignore": [
     "**/.*",
