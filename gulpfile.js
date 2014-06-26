@@ -14,19 +14,63 @@ var config = require('./config.json');
 var environment = new sprocket.Environment();
 
 var PUBLIC_PATH = config.paths.dist,
-    SOURCE_PATH = config.paths.src;
+    SOURCE_PATH = config.paths.src,
+    COMPASS_TMP_PATH = '/compass-complied/';
 if (!environment.isProduction) {
     PUBLIC_PATH = config.paths.app;
 }
 
 
 
+//stylesheets
+gulp.task('compass', function() {
+    return gulp.src([
+            SOURCE_PATH.sass + '/**.scss',
+            SOURCE_PATH.sass + '/**.sass'
+        ])
+        .pipe(plumber({
+            errorHandler: notify.onError("Error: <%= error.message %>")
+        }))
+        .pipe(compass({
+            css: PUBLIC_PATH.css,
+            sass: SOURCE_PATH.sass,
+            image: PUBLIC_PATH.image,
+            font: PUBLIC_PATH.font
+        }))
+        .pipe(notify())
+        .pipe(gulp.dest(SOURCE_PATH.css + COMPASS_TMP_PATH));
+});
 
+gulp.task('styles', ['compass'], function() {
+    return gulp.src([
+            SOURCE_PATH.css + COMPASS_TMP_PATH + '/*'
+        ])
+        .pipe(plumber({
+            errorHandler: notify.onError("Error: <%= error.message %>")
+        }))
+        .pipe(environment.createStylesheetsStream())
+        .pipe(notify())
+        .pipe(gulp.dest(PUBLIC_PATH.css));
+});
+
+gulp.task('styles:clean', function(){
+    return gulp.src([
+            PUBLIC_PATH.css + '/**/*',
+            SOURCE_PATH.css + COMPASS_TMP_PATH
+        ], { read: false })
+        .pipe(clean())
+        .pipe(notify({
+            message: "<%= file.relative %> clean!"
+        }));
+});
+
+
+//script
 gulp.task('scripts', function() {
     return gulp.src([
-        SOURCE_PATH.js + '/**/*.*',
-        'bower_components/jquery/dist/jquery.js'
-    ])
+            SOURCE_PATH.js + '/**/*.*',
+            'bower_components/jquery/dist/jquery.js'
+        ])
         .pipe(plumber({
             errorHandler: notify.onError("Error: <%= error.message %>")
         }))
@@ -35,12 +79,19 @@ gulp.task('scripts', function() {
         .pipe(gulp.dest(PUBLIC_PATH.js));
 });
 
+gulp.task('scripts:clean', function(){
+    return gulp.src([ PUBLIC_PATH.js + '/**/*' ], { read: false })
+        .pipe(clean())
+        .pipe(notify({
+            message: "<%= file.relative %> claen!"
+        }));
+});
+
 //images
 gulp.task('images:clean', function() {
-    return gulp.src(PUBLIC_PATH.image + '/**/*', {
-        read: false
-    })
+    return gulp.src(PUBLIC_PATH.image + '/**/*', { read: false })
         .pipe(clean())
+        .pipe(cache.clear())
         .pipe(notify({
             message: "<%= file.relative %> clean!"
         }));
@@ -50,7 +101,6 @@ gulp.task('images', function() {
     return gulp.src(SOURCE_PATH.image + '/**/*')
         .pipe(gulpifelse(config.imgCache,
             function() { //if cache
-                console.log('cache');
                 return cache(imagemin(config.imagemin))
             },
             function() { //else not cache
@@ -64,40 +114,64 @@ gulp.task('images', function() {
 
 //fonts
 gulp.task('fonts:clean', function() {
-    return gulp.src(PUBLIC_PATH.font + '/**/*', {
-        read: false
-    })
+    return gulp.src(PUBLIC_PATH.font + '/**/*', { read: false })
         .pipe(clean())
-        .pipe(notify());
+        .pipe(notify({
+            message: "<%= file.relative %> claen!"
+        }));
 });
 
-gulp.task('fonts', ['fonts:clean'], function() {
+gulp.task('fonts', function() {
     return gulp.src(SOURCE_PATH.font + '/**/*')
-        .pipe(gulp.dest(Config.paths.dist.fonts + '/'))
+        .pipe(gulp.dest( PUBLIC_PATH.font + '/'))
         .pipe(notify());
 });
 
 
-//
-gulp.task('html', ['scripts'], function() {
+//template
+gulp.task('html', ['styles', 'scripts'], function() {
     var stream = gulp.src(SOURCE_PATH.view + '/**/*.*')
         .pipe(environment.createHtmlsStream())
         .pipe(gulp.dest(PUBLIC_PATH.root));
-    if (!environment.isProduction) {
-        stream = stream.pipe(livereload());
-    }
+
     return stream;
 });
 
-
+gulp.task('html:clean', function(){
+    return gulp.src(PUBLIC_PATH.root + '/*.html', { read: false })
+        .pipe(clean())
+        .pipe(notify({
+            message: "<%= file.relative %> claen!"
+        }));
+});
 
 //cache
 gulp.task('clearCache', function() {
     cache.clearAll();
 });
 
+//claen
+gulp.task('clean', ['html:clean', 'styles:clean', 'scripts:clean', 'fonts:clean', 'images:clean', 'clearCache']);
+
+
+gulp.task('watch', function() {
+    gulp.watch([
+        SOURCE_PATH.view + '/**/*',
+        SOURCE_PATH.js + '/**/*',
+        SOURCE_PATH.sass + '/**/*',
+        '!'+ SOURCE_PATH.css + COMPASS_TMP_PATH +'/**/*'
+    ], ['html']);
+    gulp.watch([SOURCE_PATH.image],['images']);
+    gulp.watch([SOURCE_PATH.font],['fonts']);
+
+    //livereload
+    if (!environment.isProduction) {
+        livereload.listen();
+        gulp.watch([SOURCE_PATH.root + '/**/*']).on('change', livereload.changed);
+    }
+});
+
 //Run server and watch
-gulp.task('server', ['html'], function() {
-    gulp.watch([SOURCE_PATH.root + '/**/*']);
+gulp.task('server', ['images', 'fonts', 'html', 'watch'], function() {
     require('./server');
 });

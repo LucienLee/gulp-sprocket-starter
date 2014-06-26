@@ -1,6 +1,6 @@
 /*
  *= require_self
- *= require jquery/dist/jquery
+ *= require jquery
  */
 
 console.log("hello!!");

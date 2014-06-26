@@ -4,8 +4,9 @@ html
 		title test
 		meta(charset="utf-8")
 		meta(name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0")
+		!= stylesheetLinkTag("application",  {assetsPath: "/css/"})
 	body
-		h1 test
-		h2 12s1s
-		img(src="images/99.jpg")
-		!= javascript_include_tag("application")
+		h1 tes
+		h2 12s1
+		img(src="img/99.jpg")
+		!= javascript_include_tag("application",  {assetsPath: "/js/"})
