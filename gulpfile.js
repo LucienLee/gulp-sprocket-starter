@@ -167,7 +167,7 @@ gulp.task('watch', function() {
     //livereload
     if (!environment.isProduction) {
         livereload.listen();
-        gulp.watch([SOURCE_PATH.root + '/**/*']).on('change', livereload.changed);
+        gulp.watch([PUBLIC_PATH.root + '/**/*']).on('change', livereload.changed);
     }
 });
 
