@@ -70,8 +70,7 @@ gulp.task('styles:clean', function(){
 gulp.task('scripts', function() {
     return gulp.src([
             SOURCE_PATH.lib + '/**/*.js', //third-party lib without bower
-            SOURCE_PATH.js + '/**/*.*',
-            'bower_components/jquery/dist/jquery.js'
+            SOURCE_PATH.js + '/**/*.*'
         ])
         .pipe(plumber({
             errorHandler: notify.onError("Error: <%= error.message %>")
@@ -93,7 +92,6 @@ gulp.task('scripts:clean', function(){
 gulp.task('images:clean', function() {
     return gulp.src(PUBLIC_PATH.image + '/**/*', { read: false })
         .pipe(clean())
-        .pipe(cache.clear())
         .pipe(notify({
             message: "<%= file.relative %> clean!"
         }));
