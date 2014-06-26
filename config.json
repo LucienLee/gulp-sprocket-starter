@@ -8,7 +8,8 @@
             "sass": "src/stylesheets",
             "css": "src/stylesheets",
             "image": "src/images",
-            "font": "src/fonts"
+            "font": "src/fonts",
+            "lib": "src/lib"
         },
         "app": {
             "root": "public",

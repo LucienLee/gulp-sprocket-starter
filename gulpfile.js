@@ -43,6 +43,7 @@ gulp.task('compass', function() {
 
 gulp.task('styles', ['compass'], function() {
     return gulp.src([
+            SOURCE_PATH.lib + '/**/*.css', //third-party lib without bower
             SOURCE_PATH.css + COMPASS_TMP_PATH + '/*'
         ])
         .pipe(plumber({
@@ -68,6 +69,7 @@ gulp.task('styles:clean', function(){
 //script
 gulp.task('scripts', function() {
     return gulp.src([
+            SOURCE_PATH.lib + '/**/*.js', //third-party lib without bower
             SOURCE_PATH.js + '/**/*.*',
             'bower_components/jquery/dist/jquery.js'
         ])
@@ -132,7 +134,8 @@ gulp.task('fonts', function() {
 gulp.task('html', ['styles', 'scripts'], function() {
     return gulp.src(SOURCE_PATH.view + '/**/*.*')
         .pipe(environment.createHtmlsStream())
-        .pipe(gulp.dest(PUBLIC_PATH.root));
+        .pipe(gulp.dest(PUBLIC_PATH.root))
+        .pipe(notify("static web conpile done"));
 });
 
 gulp.task('html:clean', function(){
@@ -157,6 +160,7 @@ gulp.task('watch', function() {
         SOURCE_PATH.view + '/**/*',
         SOURCE_PATH.js + '/**/*',
         SOURCE_PATH.sass + '/**/*',
+        SOURCE_PATH.lib + '/**/*',
         '!'+ SOURCE_PATH.css + COMPASS_TMP_PATH +'/**/*' //prevent infinite loop reload
     ], ['html']);
     gulp.watch([SOURCE_PATH.image],['images']);
@@ -173,5 +177,6 @@ gulp.task('watch', function() {
 gulp.task('server', ['images', 'fonts', 'html', 'watch'], function() {
     require('./server');
 });
+
 
 gulp.task('build', ['clean', 'images', 'fonts', 'html']);
