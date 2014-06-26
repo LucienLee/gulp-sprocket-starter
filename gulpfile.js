@@ -117,7 +117,7 @@ gulp.task('fonts:clean', function() {
     return gulp.src(PUBLIC_PATH.font + '/**/*', { read: false })
         .pipe(clean())
         .pipe(notify({
-            message: "<%= file.relative %> claen!"
+            message: "<%= file.relative %> clean!"
         }));
 });
 
@@ -139,7 +139,7 @@ gulp.task('html:clean', function(){
     return gulp.src(PUBLIC_PATH.root + '/*.html', { read: false })
         .pipe(clean())
         .pipe(notify({
-            message: "<%= file.relative %> claen!"
+            message: "<%= file.relative %> clean!"
         }));
 });
 
