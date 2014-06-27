@@ -1,11 +1,55 @@
 /*
+ *= requure normalize
  *= require_self
  */
 
-@import "compass"
-@import "_variable"
+@import compass
+@import compass/layout
+@import font
+@import variable
+
+
+body, html
+	margin: 0
+	padding: 0
+	height: 100%
+
+.container
+	position: relative
+	overflow: hidden
+	height: 100%
+
+.bg
+	+stretch(-2px, -2px, -2px, -2px)
+	z-index: -1
+	background: image-url('success-kid.jpg')
+	background-size: cover
+	border: 2px solid #000
+	+filter( #{"brightness(.3)"} blur(1px))
+	opacity: .95
+
+.content
+	position: absolute
+	top: 50%
+	left: 50%
+	+transform( translate(-50%, -50%) )
+	width: 75%
+
+=basic-text-style
+	font-family: "Brandon Grotesque", "sans-serif"
+	text-align: center
+	margin: 0 .3em
+
 
 h1
-	color: $color
-	font-size: 44px
-	+text-shadow( 3px 3px 5px red )
+	color: $primary-color
+	font-weight: bold
+	font-size: 3.2em
+	text-transform: uppercase
+	+text-shadow( 1px 1px 5px darken($primary-color, 10%) )
+	+basic-text-style
+p
+	color: $secondary-color
+	font-weight: lighter
+	font-size: 1.6em
+	+basic-text-style
