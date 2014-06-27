@@ -38,13 +38,14 @@ gulp.task('compass', function() {
             font: PUBLIC_PATH.font
         }))
         .pipe(notify())
-        .pipe(gulp.dest(SOURCE_PATH.css + COMPASS_TMP_PATH));
+        .pipe(gulp.dest(SOURCE_PATH.root + COMPASS_TMP_PATH));
 });
 
 gulp.task('styles', ['compass'], function() {
     return gulp.src([
             SOURCE_PATH.lib + '/**/*.css', //third-party lib without bower
-            SOURCE_PATH.css + COMPASS_TMP_PATH + '/*'
+            SOURCE_PATH.root + COMPASS_TMP_PATH + '/*',
+            'bower_components/normalize-css/normalize.css' //put your bower components here
         ])
         .pipe(plumber({
             errorHandler: notify.onError("Error: <%= error.message %>")
@@ -57,7 +58,7 @@ gulp.task('styles', ['compass'], function() {
 gulp.task('styles:clean', function(){
     return gulp.src([
             PUBLIC_PATH.css + '/**/*',
-            SOURCE_PATH.css + COMPASS_TMP_PATH
+            SOURCE_PATH.root + COMPASS_TMP_PATH
         ], { read: false })
         .pipe(clean())
         .pipe(notify({
@@ -70,7 +71,8 @@ gulp.task('styles:clean', function(){
 gulp.task('scripts', function() {
     return gulp.src([
             SOURCE_PATH.lib + '/**/*.js', //third-party lib without bower
-            SOURCE_PATH.js + '/**/*.*'
+            SOURCE_PATH.js + '/**/*.*',
+            'bower_components/jquery/dist/jquery.min.js' //put your bower components here
         ])
         .pipe(plumber({
             errorHandler: notify.onError("Error: <%= error.message %>")
@@ -158,21 +160,26 @@ gulp.task('watch', function() {
         SOURCE_PATH.view + '/**/*',
         SOURCE_PATH.js + '/**/*',
         SOURCE_PATH.sass + '/**/*',
-        SOURCE_PATH.lib + '/**/*',
-        '!'+ SOURCE_PATH.css + COMPASS_TMP_PATH +'/**/*' //prevent infinite loop reload
+        SOURCE_PATH.lib + '/**/*'
     ], ['html']);
     gulp.watch([SOURCE_PATH.image],['images']);
     gulp.watch([SOURCE_PATH.font],['fonts']);
+});
 
-    //livereload
+
+gulp.task('livereload', function(){
     if (!environment.isProduction) {
         livereload.listen();
-        gulp.watch([PUBLIC_PATH.root + '/**/*']).on('change', livereload.changed);
+        gulp.watch([
+            PUBLIC_PATH.root + '/**/*.html',
+            PUBLIC_PATH.image + '/**/*',
+            SOURCE_PATH.font + '/**/*'
+        ]).on('change', livereload.changed);
     }
 });
 
 //Run server and watch
-gulp.task('server', ['images', 'fonts', 'html', 'watch'], function() {
+gulp.task('server', ['images', 'fonts', 'html', 'watch', 'livereload'], function() {
     require('./server');
 });
 
