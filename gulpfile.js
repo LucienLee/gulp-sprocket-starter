@@ -173,7 +173,7 @@ gulp.task('livereload', function(){
         gulp.watch([
             PUBLIC_PATH.root + '/**/*.html',
             PUBLIC_PATH.image + '/**/*',
-            SOURCE_PATH.font + '/**/*'
+            PUBLIC_PATH.font + '/**/*'
         ]).on('change', livereload.changed);
     }
 });
