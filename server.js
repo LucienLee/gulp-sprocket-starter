@@ -9,11 +9,11 @@ var NODE_ENV = process.env.NODE_ENV || 'development';
  * start a static file server
  */
 var server = connect()
-    .use(serveStatic(config.paths.app.root, {
+    .use(serveStatic(config.paths.dist.root, {
         maxAge: Infinity
     }));
 if ('production' !== NODE_ENV) {
-    server.use(serveStatic(config.paths.dist.root));
+    server.use(serveStatic(config.paths.app.root));
 }
 server.listen(PORT, function() {
     console.log("Connect server in " + NODE_ENV + " started at PORT " + PORT);
