@@ -116,7 +116,7 @@ gulp.task('images', function() {
 
 //fonts
 gulp.task('fonts:clean', function() {
-    return gulp.src(PUBLIC_PATH.font + '/**/*', { read: false })
+    return gulp.src(PUBLIC_PATH.font + '/*', { read: false })
         .pipe(clean())
         .pipe(notify({
             message: "<%= file.relative %> clean!"
@@ -125,8 +125,10 @@ gulp.task('fonts:clean', function() {
 
 gulp.task('fonts', function() {
     return gulp.src(SOURCE_PATH.font + '/**/*')
-        .pipe(gulp.dest( PUBLIC_PATH.font + '/'))
-        .pipe(notify());
+        .pipe(gulp.dest( PUBLIC_PATH.font ))
+        .pipe(notify({
+            message: "<%= file.relative %> complete"
+        }));
 });
 
 
